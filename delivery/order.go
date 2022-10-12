@@ -115,7 +115,6 @@ func (route *orderRoutes) GetByID(c *gin.Context) {
 	)
 
 	err = route.ouc.GetByID(c, &order, id)
-
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
@@ -163,14 +162,11 @@ func (route *orderRoutes) Update(c *gin.Context) {
 		return
 	}
 
-	fmt.Printf("\n %v, %T \n", &order, &order)
-
 	err = route.ouc.Update(
 		c.Request.Context(),
 		&order,
 		id,
 	)
-
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
