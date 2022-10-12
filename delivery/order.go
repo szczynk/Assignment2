@@ -42,7 +42,10 @@ func (route *orderRoutes) Fetch(c *gin.Context) {
 		err    error
 	)
 
-	err = route.ouc.Fetch(c, &orders)
+	err = route.ouc.Fetch(
+		c.Request.Context(),
+		&orders,
+	)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
@@ -114,7 +117,11 @@ func (route *orderRoutes) GetByID(c *gin.Context) {
 		err   error
 	)
 
-	err = route.ouc.GetByID(c, &order, id)
+	err = route.ouc.GetByID(
+		c.Request.Context(),
+		&order,
+		id,
+	)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
@@ -204,7 +211,11 @@ func (route *orderRoutes) Delete(c *gin.Context) {
 		err   error
 	)
 
-	err = route.ouc.Delete(c, &order, id)
+	err = route.ouc.Delete(
+		c.Request.Context(),
+		&order,
+		id,
+	)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
